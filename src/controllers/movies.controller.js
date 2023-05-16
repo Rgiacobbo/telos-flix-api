@@ -1,4 +1,6 @@
 const MovieModel = require("../model/movie.model");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config/env");
 
 const list = async (request, response) => {
   try {
@@ -15,14 +17,18 @@ const list = async (request, response) => {
 
 const getById = async (request, response) => {
   const { id } = request.params;
+  const fields = {};
+
+  if (!request.user) {
+    fields.video = 0;
+  }
 
   try {
-    const movie = await MovieModel.findById(id);
+    const movie = await MovieModel.findById(id, fields);
 
     if (!movie) {
       throw new Error();
     }
-
     return response.json(movie);
   } catch (err) {
     return response.status(400).json({
