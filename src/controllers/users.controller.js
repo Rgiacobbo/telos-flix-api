@@ -36,14 +36,27 @@ const create = async (request, response) => {
   const { name, email, password, age } = request.body;
 
   try {
+
+    if(!request.user){
+      const user = await UserModel.create({
+        name,
+        email,
+        password,
+        role: "customer",
+        age,
+      });
+      return response.status(201).json(user);
+    }
+
     const user = await UserModel.create({
       name,
       email,
       password,
+      role: "admin",
       age,
     });
-
     return response.status(201).json(user);
+    
   } catch (err) {
     return response.status(400).json({
       error: "@users/create",
