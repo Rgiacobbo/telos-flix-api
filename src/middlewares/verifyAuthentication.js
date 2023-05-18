@@ -4,7 +4,6 @@ const { JWT_SECRET } = require("../config/env");
 
 const verifyAuthenticate = (request, response, next) => {
   const { authorization } = request.headers;
-
   if (!authorization) {
     return response.status(401).json({
       error: "@authenticate/missing-token",
