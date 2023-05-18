@@ -15,6 +15,19 @@ const list = async (request, response) => {
   }
 };
 
+const listGenres = async (request, response) => {
+  try {
+    const movies = await MovieModel.distinct("genres").sort();
+
+    return response.json(movies);
+  } catch (err) {
+    return response.status(400).json({
+      error: "@movies/listGenres",
+      message: err.message || "Failed to list genres",
+    });
+  }
+};
+
 const getById = async (request, response) => {
   const { id } = request.params;
   const fields = {};
@@ -110,6 +123,7 @@ const remove = async (request, response) => {
 
 module.exports = {
   list,
+  listGenres,
   getById,
   create,
   update,
