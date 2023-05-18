@@ -8,6 +8,7 @@ const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const routes = Router();
 
 routes.get("/movies", moviesController.list);
+routes.get("/movies/genres", moviesController.listGenres);
 routes.get("/movies/:id", isAuthenticated, moviesController.getById);
 
 routes.post("/movies", verifyAuthenticate, moviesController.create);
