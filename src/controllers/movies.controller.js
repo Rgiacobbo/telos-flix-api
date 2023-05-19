@@ -68,7 +68,7 @@ const getById = async (request, response) => {
 };
 
 const create = async (request, response) => {
-  const { title, description, year, genres, posterImage, video } = request.body;
+  const { title, description, year, genres, image, video } = request.body;
 
   try {
     const movie = await MovieModel.create({
@@ -76,7 +76,7 @@ const create = async (request, response) => {
       description,
       year,
       genres,
-      posterImage,
+      image,
       video,
     });
 
@@ -91,7 +91,7 @@ const create = async (request, response) => {
 
 const update = async (request, response) => {
   const { id } = request.params;
-  const { title, description, year, genres, posterImage, video } = request.body;
+  const { title, description, year, genres, image, video } = request.body;
 
   try {
     const movieUpdated = await MovieModel.findByIdAndUpdate(
@@ -101,7 +101,7 @@ const update = async (request, response) => {
         description,
         year,
         genres,
-        posterImage,
+        image,
         video,
       },
       {
