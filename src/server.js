@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 require("./config/database");
 
@@ -13,6 +14,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(userRoutes);
 app.use(movieRoutes);
 app.use(authenticateRoutes);
