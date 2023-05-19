@@ -119,20 +119,12 @@ const update = async (request, response) => {
 
 const remove = async (request, response) => {
   const { id } = request.params;
-
   try {
-    if (request.user.role === "admin") {
-      const commentRemoved = await CommentModel.findByIdAndDelete(id);
-      if (!commentRemoved) {
-        throw new Error();
-      }
-      return response.status(204).send();
-    } else {
-      return response.status(400).json({
-        error: "@comments/remove",
-        message: `You're not authorized`,
-      });
+    const commentRemoved = await CommentModel.findByIdAndDelete(id);
+    if (!commentRemoved) {
+      throw new Error();
     }
+    return response.status(204).send();
   } catch (err) {
     return response.status(400).json({
       error: "@comments/remove",
