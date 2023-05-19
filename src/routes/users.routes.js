@@ -2,9 +2,8 @@ const { Router } = require("express");
 
 const usersController = require("../controllers/users.controller");
 
-const {
-  authenticatedUsersRoles,
-} = require("../middlewares/authenticatedUsersRoles");
+const {authenticatedUsersRoles,} = require("../middlewares/authenticatedUsersRoles");
+const {verifyAuthenticate} = require("../middlewares/verifyAuthentication")
 
 const routes = Router();
 
@@ -12,7 +11,7 @@ routes.get("/users", usersController.list);
 
 routes.post("/users", usersController.create);
 
-routes.post("/users/admin", authenticatedUsersRoles, usersController.create);
+routes.post("/users/admin", verifyAuthenticate, authenticatedUsersRoles, usersController.create);
 
 routes.get("/users/:id", usersController.getById);
 
