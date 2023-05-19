@@ -1,10 +1,26 @@
 const MovieModel = require("../model/movie.model");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../config/env");
 
 const list = async (request, response) => {
+  const { title, genres, page } = request.query;
+  const limit = 10;
+
   try {
-    const movies = await MovieModel.find();
+    if (title || genres) {
+      const regex = new RegExp(title, "i");
+      const movies = await MovieModel.find(
+        title ? { title: { $regex: regex } } : { genres: { $in: genres } }
+      )
+        .limit(limit)
+        .skip((page - 1) * limit);
+      if (!movies) {
+        throw new Error();
+      }
+      return response.json(movies);
+    }
+
+    const movies = await MovieModel.find()
+      .limit(limit)
+      .skip((page - 1) * limit);
 
     return response.json(movies);
   } catch (err) {
