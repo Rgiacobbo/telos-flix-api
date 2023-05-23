@@ -37,16 +37,27 @@ const create = async (request, response) => {
 
   try {
 
-    if(!request.user){
-      const user = await UserModel.create({
-        name,
-        email,
-        password,
-        role: "customer",
-        age,
-      });
-      return response.status(201).json(user);
-    }
+    const user = await UserModel.create({
+      name,
+      email,
+      password,
+      role: "customer",
+      age,
+    });
+    return response.status(201).json(user);
+    
+  } catch (err) {
+    return response.status(400).json({
+      error: "@users/create",
+      message: err.message || "Failed to create user",
+    });
+  }
+};
+
+const createAdmin = async (request, response) => {
+  const { name, email, password, age } = request.body;
+
+  try {
 
     const user = await UserModel.create({
       name,
@@ -117,6 +128,7 @@ module.exports = {
   list,
   getById,
   create,
+  createAdmin,
   update,
   remove,
 };

@@ -11,7 +11,7 @@ routes.get("/users", usersController.list);
 
 routes.post("/users", usersController.create);
 
-routes.post("/users/admin", verifyAuthenticate, authenticatedUsersRoles, usersController.create);
+routes.post("/users/admin", verifyAuthenticate, authenticatedUsersRoles, usersController.createAdmin);
 
 routes.get("/users/:id", usersController.getById);
 
