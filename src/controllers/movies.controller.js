@@ -5,20 +5,12 @@ const list = async (request, response) => {
   const limit = 10;
 
   try {
-    if (title || genres) {
-      const regex = new RegExp(title, "i");
-      const movies = await MovieModel.find(
-        title ? { title: { $regex: regex } } : { genres: { $in: genres } }
-      )
-        .limit(limit)
-        .skip((page - 1) * limit);
-      if (!movies) {
-        throw new Error();
-      }
-      return response.json(movies);
-    }
+    let filters;
 
-    const movies = await MovieModel.find()
+    if (title) filters = { title: { $regex: new RegExp(title, "i") } };
+    if (genres) filters = { genres: { $in: new RegExp(genres, "i") } };
+
+    const movies = await MovieModel.find(filters)
       .limit(limit)
       .skip((page - 1) * limit);
 
