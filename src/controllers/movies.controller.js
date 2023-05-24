@@ -3,14 +3,18 @@ const MovieModel = require("../model/movie.model");
 const list = async (request, response) => {
   const { title, genres, page } = request.query;
   const limit = 10;
+  const fields = {};
 
+  if (!request.user) {
+    fields.video = 0;
+  }
   try {
     let filters;
 
     if (title) filters = { title: { $regex: new RegExp(title, "i") } };
     if (genres) filters = { genres: { $in: new RegExp(genres, "i") } };
 
-    const movies = await MovieModel.find(filters)
+    const movies = await MovieModel.find(filters, fields)
       .limit(limit)
       .skip((page - 1) * limit);
 
