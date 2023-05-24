@@ -3,22 +3,18 @@ const MovieModel = require("../model/movie.model");
 const list = async (request, response) => {
   const { title, genres, page } = request.query;
   const limit = 10;
+  const fields = {};
 
+  if (!request.user) {
+    fields.video = 0;
+  }
   try {
-    if (title || genres) {
-      const regex = new RegExp(title, "i");
-      const movies = await MovieModel.find(
-        title ? { title: { $regex: regex } } : { genres: { $in: genres } }
-      )
-        .limit(limit)
-        .skip((page - 1) * limit);
-      if (!movies) {
-        throw new Error();
-      }
-      return response.json(movies);
-    }
+    let filters;
 
-    const movies = await MovieModel.find()
+    if (title) filters = { title: { $regex: new RegExp(title, "i") } };
+    if (genres) filters = { genres: { $in: new RegExp(genres, "i") } };
+
+    const movies = await MovieModel.find(filters, fields)
       .limit(limit)
       .skip((page - 1) * limit);
 

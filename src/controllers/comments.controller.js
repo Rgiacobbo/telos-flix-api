@@ -1,5 +1,10 @@
 const CommentModel = require("../model/comment.model");
 
+const invalidCommentRatting = {
+  error: "@comments/create",
+  message: "Error creating comment. The rating must be 1 to 5",
+};
+
 const list = async (request, response) => {
   try {
     const comments = await CommentModel.find()
@@ -59,10 +64,7 @@ const create = async (request, response) => {
   const userId = request.user._id;
 
   if (rating < 1 || rating > 5) {
-    return response.status(400).json({
-      error: "@comments/create",
-      message: "Error creating comment. The rating must be 1 to 5",
-    });
+    return response.status(400).json({ invalidCommentRatting });
   }
 
   try {
@@ -85,16 +87,23 @@ const update = async (request, response) => {
   const { id } = request.params;
   const { content, rating } = request.body;
   const userId = request.user._id;
-  const comment = await CommentModel.findById(id);
 
-  if (userId !== comment.user_id.toString() && request.user.role !== "admin") {
-    return response.status(401).json({
-      error: "@comment/update",
-      message: "Not authorized",
-    });
+  if (rating < 1 || rating > 5) {
+    return response.status(400).json({ invalidCommentRatting });
   }
-
   try {
+    const comment = await CommentModel.findById(id);
+
+    if (
+      userId !== comment.user_id.toString() &&
+      request.user.role !== "admin"
+    ) {
+      return response.status(401).json({
+        error: "@comment/update",
+        message: "Not authorized",
+      });
+    }
+
     const commentUpdaded = await CommentModel.findByIdAndUpdate(
       id,
       {
@@ -112,7 +121,7 @@ const update = async (request, response) => {
   } catch (err) {
     return response.status(400).json({
       error: "@comments/update",
-      message: `Comment not found ${id}`,
+      message: err.message || `Comment not found ${id}`,
     });
   }
 };
