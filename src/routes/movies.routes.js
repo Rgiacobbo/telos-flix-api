@@ -14,8 +14,8 @@ routes.get("/movies/:id", isAuthenticated, moviesController.getById);
 
 routes.post("/movies", verifyAuthenticate, authenticatedUsersRoles, moviesController.create);
 
-routes.put("/movies/:id", moviesController.update);
+routes.put("/movies/:id", verifyAuthenticate, authenticatedUsersRoles, moviesController.update);
 
-routes.delete("/movies/:id", moviesController.remove);
+routes.delete("/movies/:id", verifyAuthenticate, authenticatedUsersRoles, moviesController.remove);
 
 module.exports = routes;
