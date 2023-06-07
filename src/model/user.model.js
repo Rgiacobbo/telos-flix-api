@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       enum: ["customer", "admin"],
     },
-    age: {
+    birthDate: {
       type: Number,
     },
     phone: {
