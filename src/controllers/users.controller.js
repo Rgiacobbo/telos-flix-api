@@ -84,7 +84,6 @@ const update = async (request, response) => {
   const { name, email, password, birthDate, phone } = request.body;
 
   if (!(request.user._id.toString() === id || request.user.role === "admin")) {
-    console.log(id)
     return response.status(401).json(notPermissionMessage);
   }
 
@@ -116,8 +115,6 @@ const update = async (request, response) => {
 
 const remove = async (request, response) => {
   const { id } = request.params;
-
-  console.log(request.user)
 
   if (!(request.user._id.toString() === id || request.user.role === "admin")) {
     return response.status(401).json(notPermissionMessage);
