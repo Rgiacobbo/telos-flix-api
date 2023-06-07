@@ -1,5 +1,10 @@
 const UserModel = require("../model/user.model");
 
+const notPermissionMessage = {
+  error: "@user/not-Permission",
+  message: "user not permission",
+};
+
 const list = async (request, response) => {
   try {
     const users = await UserModel.find({}, { password: 0 });
@@ -78,6 +83,11 @@ const update = async (request, response) => {
   const { id } = request.params;
   const { name, email, password, birthDate, phone } = request.body;
 
+  if (!(request.user._id.toString() === id || request.user.role === "admin")) {
+    console.log(id)
+    return response.status(401).json(notPermissionMessage);
+  }
+
   try {
     const userUpdated = await UserModel.findByIdAndUpdate(
       id,
@@ -106,6 +116,12 @@ const update = async (request, response) => {
 
 const remove = async (request, response) => {
   const { id } = request.params;
+
+  console.log(request.user)
+
+  if (!(request.user._id.toString() === id || request.user.role === "admin")) {
+    return response.status(401).json(notPermissionMessage);
+  }
 
   try {
     const userDeleted = await UserModel.findByIdAndDelete(id);
