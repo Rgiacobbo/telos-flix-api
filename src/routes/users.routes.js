@@ -15,8 +15,8 @@ routes.post("/users/admin", verifyAuthenticate, authenticatedUsersRoles, usersCo
 
 routes.get("/users/:id", usersController.getById);
 
-routes.put("/users/:id", usersController.update);
+routes.put("/users/:id", verifyAuthenticate, usersController.update);
 
-routes.delete("/users/:id", usersController.remove);
+routes.delete("/users/:id", verifyAuthenticate, usersController.remove);
 
 module.exports = routes;

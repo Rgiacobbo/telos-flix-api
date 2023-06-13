@@ -1,5 +1,10 @@
 const UserModel = require("../model/user.model");
 
+const notPermissionMessage = {
+  error: "@user/not-Permission",
+  message: "user not permission",
+};
+
 const list = async (request, response) => {
   try {
     const users = await UserModel.find({}, { password: 0 });
@@ -33,19 +38,18 @@ const getById = async (request, response) => {
 };
 
 const create = async (request, response) => {
-  const { name, email, password, age } = request.body;
+  const { name, email, password, birthDate, phone } = request.body;
 
   try {
-
     const user = await UserModel.create({
       name,
       email,
       password,
       role: "customer",
-      age,
+      birthDate,
+      phone,
     });
     return response.status(201).json(user);
-    
   } catch (err) {
     return response.status(400).json({
       error: "@users/create",
@@ -55,19 +59,18 @@ const create = async (request, response) => {
 };
 
 const createAdmin = async (request, response) => {
-  const { name, email, password, age } = request.body;
+  const { name, email, password, birthDate, phone } = request.body;
 
   try {
-
     const user = await UserModel.create({
       name,
       email,
       password,
       role: "admin",
-      age,
+      birthDate,
+      phone,
     });
     return response.status(201).json(user);
-    
   } catch (err) {
     return response.status(400).json({
       error: "@users/create",
@@ -78,7 +81,11 @@ const createAdmin = async (request, response) => {
 
 const update = async (request, response) => {
   const { id } = request.params;
-  const { name, email, password, age } = request.body;
+  const { name, email, password, birthDate, phone } = request.body;
+
+  if (!(request.user._id.toString() === id || request.user.role === "admin")) {
+    return response.status(401).json(notPermissionMessage);
+  }
 
   try {
     const userUpdated = await UserModel.findByIdAndUpdate(
@@ -87,7 +94,8 @@ const update = async (request, response) => {
         name,
         email,
         password,
-        age,
+        birthDate,
+        phone,
       },
       { new: true }
     );
@@ -107,6 +115,10 @@ const update = async (request, response) => {
 
 const remove = async (request, response) => {
   const { id } = request.params;
+
+  if (!(request.user._id.toString() === id || request.user.role === "admin")) {
+    return response.status(401).json(notPermissionMessage);
+  }
 
   try {
     const userDeleted = await UserModel.findByIdAndDelete(id);
