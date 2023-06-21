@@ -1,0 +1,985 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API da Telos Flix",
+    "description": "Essa API tem como objetico simular um streamer de filmes.",
+    "contact": {
+      "email": "rgiacobbofilho@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3333",
+      "description": "API de test"
+    }
+  ],
+  "paths": {
+    "/authenticate": {
+      "post": {
+        "summary": "Login",
+        "description": "Essa rota será responsável por fazer o login.",
+        "tags": ["authenticate"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Authenticate"
+              },
+              "examples": {
+                "Authenticate": {
+                  "value": {
+                    "email": "johnDoe@example.com",
+                    "password": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Invalid email or password"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "_id": "6463f5c9909b4aaf0ce3fc3a",
+                      "name": "John Doe",
+                      "email": "johnDoe@example.com",
+                      "role": "customer",
+                      "age": 22,
+                      "createdAt": "2023-05-16T21:29:45.082Z",
+                      "updatedAt": "2023-05-16T21:29:45.082Z",
+                      "__v": 0,
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDYzZmRhNjU5ODk5Njk2YzEzYTNlMjIiLCJuYW1lIjoicmljYXJkbyIsImVtYWlsIjoicmljYXJkb0BleGFtcGxlLmNvbS5iciIsInJvbGUiOiJjdXN0b21lciIsImFnZSI6MjIsImNyZWF0ZWRBdCI6IjIwMjMtMDUtMTZUMjI6MDM6MTguNzU0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDdUMjE6Mjg6MTQuMjgyWiIsIl9fdiI6MCwiaWF0IjoxNjg3MzY5ODY3LCJleHAiOjE2ODczNzM0Njd9.Q_3zbFuKQ3dS6qvDxWRNd5r5JQtgt4Nd_XGTYugkTN8"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/admin": {
+      "post": {
+        "summary": "Cradastro de Admin",
+        "description": "Essa rota será responsável por cadastrar um novo Admin, para fazer o Cadrastro o token deve ser de admin.",
+        "tags": ["users"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "John Doe",
+                    "email": "johnDoe@example.com",
+                    "password": "password123",
+                    "birthDate": "01/02/2003",
+                    "phone": 99887766
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Failed to create user"
+          },
+          "401": {
+            "description": "The token provided for admin is invalid"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "John Doe",
+                      "email": "johnDoe@example.com",
+                      "password": "$2a$08$l0mTNAM29E0ZvyQdvez5WOnXOGfYdbxdM79UfhBoRd.BOCmVUjQMa",
+                      "role": "admin",
+                      "birthDate": "01/02/2003",
+                      "phone": 99887766,
+                      "_id": "649076a24939f67d426850e6",
+                      "createdAt": "2023-06-19T15:39:14.763Z",
+                      "updatedAt": "2023-06-19T15:39:14.763Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "summary": "Cradastro de usuario",
+        "description": "Essa rota será responsável por cadastrar um novo usuario",
+        "tags": ["users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "John Doe",
+                    "email": "johnDoe@example.com",
+                    "password": "password123",
+                    "birthDate": "01/02/2003",
+                    "phone": 99887766
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Failed to create user"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "name": "John Doe",
+                      "email": "johnDoe@example.com",
+                      "password": "$2a$08$l0mTNAM29E0ZvyQdvez5WOnXOGfYdbxdM79UfhBoRd.BOCmVUjQMa",
+                      "role": "customer",
+                      "birthDate": "01/02/2003",
+                      "phone": 99887766,
+                      "_id": "649076a24939f67d426850e6",
+                      "createdAt": "2023-06-19T15:39:14.763Z",
+                      "updatedAt": "2023-06-19T15:39:14.763Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listagem de usuario",
+        "description": "Essa rota será responsável por Listar os usuarios",
+        "tags": ["users"],
+        "responses": {
+          "400": {
+            "description": "Failed to create user"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ArrayOfUsers"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Listagem de um Usuario especifico",
+        "description": "Essa rota será responsável por cadastrar um novo usuario",
+        "tags": ["users"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Usuario.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "User not found"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "_id": "649076a24939f67d426850e6",
+                      "name": "John Doe",
+                      "email": "johnDoe@example.com",
+                      "password": "$2a$08$l0mTNAM29E0ZvyQdvez5WOnXOGfYdbxdM79UfhBoRd.BOCmVUjQMa",
+                      "role": "customer",
+                      "birthDate": "01/02/2003",
+                      "phone": 99887766,
+                      "createdAt": "2023-06-19T15:39:14.763Z",
+                      "updatedAt": "2023-06-19T15:39:14.763Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Alteração usuario",
+        "description": "Essa rota será responsável por alterar os dados do usuario",
+        "tags": ["users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Usuario.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Dados a serem alterados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "John Doe",
+                    "email": "johnDoe@example.com",
+                    "password": "password12345",
+                    "birthDate": "02/02/2000",
+                    "phone": 99887766
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Failed to update user"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover usuario",
+        "description": "Essa rota será responsável por remover um usuario",
+        "tags": ["users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Usuario.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/movies": {
+      "post": {
+        "summary": "Cradastro de um filme",
+        "description": "Essa rota será responsável por cadastrar um novo filme, o token deve ser de admin.",
+        "tags": ["movies"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movies"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "title": "O batman",
+                    "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                    "year": 2022,
+                    "genres": ["Drama"],
+                    "image": "https://www.themoviedb.org/t/p/original/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg",
+                    "video": "https://www.youtube.com/watch?v=6hB3S9bIaco"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Failed to create movie"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Movies"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "title": "O batman",
+                      "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                      "year": 2022,
+                      "genres": ["Drama"],
+                      "image": "https://www.themoviedb.org/t/p/original/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg",
+                      "video": "https://www.youtube.com/watch?v=6hB3S9bIaco",
+                      "_id": "649348e754e2a2f006efe88a",
+                      "createdAt": "2023-06-21T19:00:55.686Z",
+                      "updatedAt": "2023-06-21T19:00:55.686Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listagem dos filmes",
+        "description": "Essa rota será responsável por Listar os filmes,pode passar os parametros de pagina, titulo e genero.",
+        "tags": ["movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Numero da Pagina."
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Titulo do Filme."
+          },
+          {
+            "name": "genres",
+            "in": "query",
+            "description": "Genero do Filme."
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Failed to list movies"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ArrayOfMovies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/genres": {
+      "get": {
+        "summary": "Listagem dos Generos",
+        "description": "Essa rota será responsável por Listar os Generos dos filmes.",
+        "tags": ["movies"],
+        "responses": {
+          "400": {
+            "description": "Failed to list movies"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ArrayOfGenres"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "summary": "Listagem de um Filme especifico",
+        "description": "Essa rota será responsável por cadastrar um novo usuario",
+        "tags": ["movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Filme.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Movie not found"
+          },
+          "200": {
+            "description": "OK, com authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Movies"
+                },
+                "examples": {
+                  "Movie": {
+                    "value": {
+                      "_id": "6467f143a24d5a84eda310d0",
+                      "title": "The Shawshank Redemption",
+                      "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                      "year": 1994,
+                      "genres": ["Drama"],
+                      "image": "https://www.themoviedb.org/t/p/original/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg",
+                      "video": "https://www.youtube.com/watch?v=6hB3S9bIaco"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "*200": {
+            "description": "OK, sem authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Movies"
+                },
+                "examples": {
+                  "Movie": {
+                    "value": {
+                      "_id": "6467f143a24d5a84eda310d0",
+                      "title": "The Shawshank Redemption",
+                      "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                      "year": 1994,
+                      "genres": ["Drama"],
+                      "image": "https://www.themoviedb.org/t/p/original/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Alteração do Filme",
+        "description": "Essa rota será responsável por alterar os dados do filme",
+        "tags": ["movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Filme.",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Dados a serem alterados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Movies"
+              },
+              "examples": {
+                "Movie": {
+                  "value": {
+                    "title": "The Shawshank Redemption",
+                    "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+                    "year": 1994,
+                    "genres": ["Drama"],
+                    "image": "https://www.themoviedb.org/t/p/original/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg",
+                    "video": "https://www.youtube.com/watch?v=6hB3S9bIaco"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Movie not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Movies"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover usuario",
+        "description": "Essa rota será responsável por remover um filme",
+        "tags": ["movies"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Filme.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Movie not found"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "post": {
+        "summary": "Cradastro de Comentario",
+        "description": "Essa rota será responsável por cadastrar um novo Comentario",
+        "tags": ["comments"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "movie_id": "646288c4ea6268f337682a59",
+                    "content": "Ótimo filme! Adorei a história e os personagens. Muito bom.",
+                    "rating": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Failed to create a commment"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "movie_id": "646288c4ea6268f337682a59",
+                      "user_id": "6463fda659899696c13a3e22",
+                      "content": "Ótimo filme! Adorei a história e os personagens. Muito bom.",
+                      "rating": 2,
+                      "_id": "648901e4f35f2537481c0ee6",
+                      "createdAt": "2023-06-13T23:55:16.494Z",
+                      "updatedAt": "2023-06-13T23:55:16.494Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listagem de Comentarios",
+        "description": "Essa rota será responsável por Listar os Comentarios",
+        "tags": ["comments"],
+        "responses": {
+          "400": {
+            "description": "Failed to create user"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ArrayOfComment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/movie/{id}": {
+      "get": {
+        "summary": "Listagem dos Comentarios de um filme",
+        "description": "Essa rota será responsável por listas os comentarios de um filme",
+        "tags": ["comments"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Filme.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Movie not found"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "_id": "6477d627691ba94f7f54982b",
+                      "movie_id": "646288c4ea6268f337682a59",
+                      "user_id": {
+                        "_id": "6463fda659899696c13a3e22",
+                        "name": "ricardo",
+                        "email": "ricardo@example.com.br",
+                        "role": "customer",
+                        "age": 22,
+                        "createdAt": "2023-05-16T22:03:18.754Z",
+                        "updatedAt": "2023-06-07T21:28:14.282Z",
+                        "__v": 0
+                      },
+                      "content": "Ótimo filme! Adorei a história e os personagens. Muito bom.",
+                      "rating": 5,
+                      "createdAt": "2023-05-31T23:20:07.680Z",
+                      "updatedAt": "2023-05-31T23:20:07.680Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{id}": {
+      "get": {
+        "summary": "Listagem de um Comentario especifico",
+        "description": "Essa rota será responsável por listar um comentario especifico",
+        "tags": ["comments"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Comentario.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Comments not found"
+          },
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                },
+                "examples": {
+                  "user": {
+                    "value": {
+                      "_id": "648901e4f35f2537481c0ee6",
+                      "movie_id": "646288c4ea6268f337682a59",
+                      "user_id": "6463fda659899696c13a3e22",
+                      "content": "Ótimo filme! Adorei a história e os personagens. Muito bom.",
+                      "rating": 2,
+                      "createdAt": "2023-06-13T23:55:16.494Z",
+                      "updatedAt": "2023-06-13T23:55:16.494Z",
+                      "__v": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Alteração Comentario",
+        "description": "Essa rota será responsável por alterar os dados do Comentario",
+        "tags": ["comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Comentario.",
+            "required": true
+          }
+        ],
+
+        "requestBody": {
+          "description": "Dados a serem alterados",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "rating": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Comment not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remover Comentario",
+        "description": "Essa rota será responsável por remover um Comentario",
+        "tags": ["comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do Comentario.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Comment not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "number"
+          }
+        },
+        "required": ["name", "email", "password", "birthDate", "phone"]
+      },
+      "Authenticate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "password"]
+      },
+      "Movies": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "year": {
+            "type": "number"
+          },
+          "genres": {
+            "type": "object"
+          },
+          "image": {
+            "type": "string"
+          },
+          "video": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "description", "year", "genre", "image", "video"]
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "movie_id": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          }
+        },
+        "required": ["movie_id", "content", "rating"]
+      }
+    },
+    "ArrayOfUsers": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "birthDate": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "number"
+        }
+      },
+      "required": ["name", "email", "password", "birthDate", "phone"],
+      "examples": {
+        "value": [
+          {
+            "_id": "6463f5c9909b4aaf0ce3fc3a",
+            "name": "admin",
+            "email": "admin@example.com.br",
+            "role": "admin",
+            "age": 22,
+            "createdAt": "2023-05-16T21:29:45.082Z",
+            "updatedAt": "2023-05-16T21:29:45.082Z",
+            "__v": 0
+          },
+          {
+            "_id": "6463fda659899696c13a3e22",
+            "name": "ricardo",
+            "email": "ricardo@example.com.br",
+            "role": "customer",
+            "age": 22,
+            "createdAt": "2023-05-16T22:03:18.754Z",
+            "updatedAt": "2023-06-07T21:28:14.282Z",
+            "__v": 0
+          },
+          {
+            "_id": "646431ae1263bfde00f629a6",
+            "name": "ricardo",
+            "email": "ricardo23@example.com.br",
+            "role": "customer",
+            "age": 22,
+            "createdAt": "2023-05-17T01:45:18.036Z",
+            "updatedAt": "2023-05-17T01:45:18.036Z",
+            "__v": 0
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

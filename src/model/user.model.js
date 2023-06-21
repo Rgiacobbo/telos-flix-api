@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema(
       enum: ["customer", "admin"],
     },
     birthDate: {
-      type: Number,
+      type: String,
     },
     phone: {
       type: Number,
