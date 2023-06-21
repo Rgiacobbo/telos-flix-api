@@ -400,12 +400,6 @@
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "description": "Id do filme.",
-            "required": true
-          },
-          {
             "name": "page",
             "in": "query",
             "description": "Numero da Pagina."
