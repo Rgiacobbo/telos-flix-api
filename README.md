@@ -5,7 +5,7 @@
 - [JWT](https://github.com/auth0/node-jsonwebtoken)
 - [dotenv](https://github.com/motdotla/dotenv)
 - [bcrypt.js](https://www.npmjs.com/package/bcryptjs)
-- [swagger]([https://github.com/uuidjs/uuid](https://github.com/swagger-api/swagger-ui))
+- [swagger](https://github.com/swagger-api/swagger-ui)
 
 ## ❓ Como utilizar
 
