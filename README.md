@@ -9,6 +9,14 @@
 
 ## ❓ Como utilizar
 
+## 📑 Sobre o Projeto
+
+Este projeto consistem em uma API REST como parte de um treinamento da Telós Conecta. A API foi criada para demonstrar os conhecimentose e habilidades da equipe.
+
+O objetivo principal do projeto é construir uma API que atenda todas as necessidades do fronte, que retorne dados dos `usuarios`, `filmes` e `comentarios`.
+
+<br>
+
 ### Como instalar
 
 ```bash
@@ -34,5 +42,3 @@ yarn dev
 A API de noticias tem como funcionalidades de gerencias a exibição de filmes.
 
 Para acessar o swagger acesse a rota /api-docs
-
-
