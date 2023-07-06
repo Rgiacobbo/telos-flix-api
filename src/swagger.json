@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3333",
+      "url": "https://telos-flix-api.onrender.com",
       "description": "API de test"
     }
   ],
