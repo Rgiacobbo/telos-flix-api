@@ -42,3 +42,5 @@ yarn dev
 A API de noticias tem como funcionalidades de gerencias a exibição de filmes.
 
 Para acessar o swagger acesse a rota /api-docs
+
+[click aqui](https://telos-flix-api.onrender.com/api-docs)
